@@ -1,0 +1,32 @@
+numericalValues {
+  output = numericalToken+
+  numericalToken = hex | pair | range | tuple | currency | float | eufloat | integer | otherToken
+
+  hex = hexToken
+  pair = integerToken x integerToken
+  range = integerToken dot dot integerToken
+  tuple = integerToken dot integerToken dot
+  currency = dollar integerToken dot integerToken
+  eufloat = integerToken comma integerToken
+  float = integerToken dot integerToken
+  integer = integerToken
+  otherToken =  tag subtag? whiteSpace text? eol
+
+  hexToken = "H" spc text eol
+  integerToken = "I" spc text eol
+
+  dot = "D" "." spc text eol
+  dollar = "D" "$" spc text eol
+  comma = "D" "," spc text eol
+  x = "N" spc "x" eol
+
+  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D"
+  subtag =   "[" | "]" | "{" | "}" | "(" | ")"
+           | "/" | "." | ":" | "@" | "#" | "-" | "$" | "<" | ">"
+  
+  text = textChar+
+  textChar = ~eol whiteSpace* any
+  eol = "\n"+
+  spc = whiteSpace
+  whiteSpace = " " | "\t"
+}
