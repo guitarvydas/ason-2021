@@ -11,9 +11,7 @@ killws {
   ident = "N" text eol
   ws = "W" text eol
 
-  subDelimiter = sub text
-	      
-  sub = "a" .. "o"
+  subDelimiter = any whiteSpace* text
 
   text = textChar+
   textChar = ~eol whiteSpace* any
