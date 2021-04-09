@@ -1,16 +1,18 @@
 killws {
   output = asonToken+
-  asonToken = singleLevelToken | delimiter | ws
+  asonToken = singleLevelToken | delimiter | ws | unknown
 
-  singleLevelToken = ("A" | "S" | "I" | "M" | "H" | "U" | "N") text eol
+  singleLevelToken = ("A" | "S" | "I" | "M" | "H" | "U" | "N") whiteSpace text eol
   delimiter = "D" subDelimiter eol
-  ws = "W" text eol
+  unknown = "U" spc eol
+  ws = "W" spc text eol
 
   subDelimiter = any whiteSpace* text
 
   text = textChar+
   textChar = ~eol whiteSpace* any
   eol = "\n"+
+  spc = whiteSpace
   whiteSpace = " " | "\t"
 }
 
