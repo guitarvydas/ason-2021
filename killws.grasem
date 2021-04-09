@@ -1,0 +1,36 @@
+killws {
+  output = asonToken+
+  asonToken = string | delimiter | integer | namedMonth | hex | unknown | ident | ws
+
+  string = "S" text eol
+  delimiter = "D" subDelimiter eol
+  integer = "I" text eol
+  namedMonth = "M" text eol
+  hex = "H" text eol
+  unknown = "U" eol
+  ident = "N" text eol
+  ws = "W" text eol
+
+  subDelimiter = da | db | dc | dd | de | df | dg
+              | dh | di | dj | dk | dl | dm | dn | do
+	      
+  da = "a" text
+  db = "b" text
+  dc = "c" text
+  dd = "d" text
+  de = "e" text
+  df = "f" text
+  dg = "g" text
+  dh = "h" text
+  di = "i" text
+  dj = "j" text
+  dk = "k" text
+  dl = "l" text
+  dm = "m" text
+  dn = "n" text
+  do = "o" text
+
+  text = ~eol whiteSpace* any
+  eol = "\n"+
+  whiteSpace = " " | "\t"
+}
