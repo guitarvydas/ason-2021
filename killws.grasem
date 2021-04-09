@@ -1,14 +1,9 @@
 killws {
   output = asonToken+
-  asonToken = string | delimiter | integer | namedMonth | hex | unknown | ident | ws
+  asonToken = singleLevelToken | delimiter | ws
 
-  string = "S" text eol
+  singleLevelToken = ("A" | "S" | "I" | "M" | "H" | "U" | "N") text eol
   delimiter = "D" subDelimiter eol
-  integer = "I" text eol
-  namedMonth = "M" text eol
-  hex = "H" text eol
-  unknown = "U" whiteSpace* eol
-  ident = "N" text eol
   ws = "W" text eol
 
   subDelimiter = any whiteSpace* text
@@ -21,14 +16,9 @@ killws {
 
 output [@a] = [[${a}]]
 
-string [_ text _eol] = [[${_} ${text}\n]]
+singleLevelToken [_ text _eol] = [[${_} ${text}\n]]
 delimiter [_ sub _eol] = [[${_}${sub}\n]]
 subDelimiter [s @ws t] = [[${s} ${t}]]
-integer [_ text _eol] = [[${_} ${text}\n]]
-namedMonth [_ text _eol] = [[${_} ${text}\n]]
-hex [_ text _eol] = [[${_} ${text}\n]]
-unknown [_ text _eol] = [[${_} ${text}\n]]
-ident [_ text _eol] = [[${_} ${text}\n]]
 ws [_ text _eol] = [[]]
 
 text [@t] = [[${t}]]
