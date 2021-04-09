@@ -18,10 +18,11 @@ killws {
 
 output [@a] = [[${a}]]
 
-singleLevelToken [_ text _eol] = [[${_} ${text}\n]]
+singleLevelToken [_ ws text _eol] = [[${_} ${text}\n]]
 delimiter [_ sub _eol] = [[${_}${sub}\n]]
 subDelimiter [s @ws t] = [[${s} ${t}]]
-ws [_ text _eol] = [[]]
+ws [_ s text _eol] = [[]]
+unknown [c _spc _eol] = [[???]]
 
 text [@t] = [[${t}]]
 textChar [@ws c] = [[${c}]]
