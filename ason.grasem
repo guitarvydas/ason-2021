@@ -1,0 +1,184 @@
+asonToken {
+  output = asonToken+
+  asonToken = string | delimiter | integer | namedMonth | hex | ws | unknown | ident
+
+  unknown = "?" "?" "?"
+
+  hex = "#" hexDig+
+
+  ident = ~namedMonth ident1 identFollow*
+  ident1 = "a" .. "z" | "A" .. "Z"
+  identFollow = "0" .. "9" | "_" | ident1
+
+  delimiter = da | db | dc | dd | de | df | dg
+              | dh | di | dj | dk | dl | dm | dn | do
+	      
+  da = "["
+  db = "]"
+  dc = "{" 
+  dd = "}"
+  de = "("
+  df = ")"
+  dg = "/"
+  dh = "."
+  di = ":"
+  dj = "@"
+  dk = "#"
+  dl = "-"
+  dm = "$"
+  dn = "<"
+  do = ">"
+
+  integer = decimalDigit+
+  decimalDigit = "0" .. "9"
+  hexDig = "A" .. "F" | decimalDigit
+
+  ws = wsChar+
+  wsChar = " " | "\n" | "\t"
+  string = "\"" stringChar* "\""
+  stringChar = escapedChar | simpleStringChar
+  escapedChar = "\\" any
+  simpleStringChar = ~"\"" any
+  
+  namedMonth =   january | february | march | april
+               | may | june | july | august
+  	       | september | october | november | december
+
+  january = cJ cA cN cU cA cR cY --long
+  	  | cJ cA cN --abbrev
+  february = cF cE cB cR cU cA cR cY --long
+  	   | cF cE cB --abbrev
+  march = cM cA cR cC cH  --long
+          | cM cA cR --abbrev
+  april = cA cP cR cI cL --long
+  	  | cA cP cR --abbrev
+  may = cM cA cY --long
+  june = cJ cU cN cE --long
+         | cJ cU cN --abbrev
+  july = cJ cU cL cY  --long
+       	     | cJ cU cL --abbrev
+  august = cA cU cG cU cS cT --long 
+             | cA cU cG --abbrev
+  september = cS cE cP cT cE cM cB cE cR  --long
+             | cS cE cP cT --abbrev1
+	     | cS cE cP --abbrev2
+  october = cO cC cT cO cB cE cR  --long
+             | cO cC cT --abbrev
+  november = cN cO cV cE cM cB cE cR  --long
+             | cN cO cV --abbrev
+  december = cD cE cC cE cM cB cE cR  --long
+             | cD cE cC --abbrev
+
+  cA = "a" | "A"
+  cB = "b" | "B"
+  cC = "c" | "C"
+  cD = "d" | "D"
+  cE = "e" | "E"
+  cF = "f" | "F"
+  cG = "g" | "G"
+  cH = "h" | "H"
+  cI = "i" | "I"
+  cJ = "j" | "J"
+  cK = "k" | "K"
+  cL = "l" | "L"
+  cM = "m" | "M"
+  cN = "n" | "N"
+  cO = "o" | "O"
+  cP = "p" | "P"
+  cQ = "q" | "Q"
+  cR = "r" | "R"
+  cS = "s" | "S"
+  cT = "t" | "T"
+  cU = "u" | "U"
+  cV = "v" | "V"
+  cW = "w" | "W"
+  cX = "x" | "X"
+  cY = "y" | "Y"
+  cZ = "z" | "Z"
+}
+
+output [@token] = [[${token}]]
+asonToken [t] = [[${t}\n]]
+unknown [_1 _2 _3] = [[U ]]
+hex [_ @h] = [[H ${h}]]
+word [w] = [[W ${w}]]
+ident [id1 @idf] = [[I ${id1}${idf}]]
+ident1 [c] = [[${c}]]
+identFollow [c] = [[${c}]]
+delimiter [d] = [[${d}]]
+da [c] = [[Da ${c}]]
+db [c] = [[Db ${c}]]
+dc [c] = [[Dc ${c}]]
+dd [c] = [[Dd ${c}]]
+de [c] = [[De ${c}]]
+df [c] = [[Df ${c}]]
+dg [c] = [[Dg ${c}]]
+dh [c] = [[Dh ${c}]]
+di [c] = [[Di ${c}]]
+dj [c] = [[Dj ${c}]]
+dk [c] = [[Dk ${c}]]
+dl [c] = [[Dl ${c}]]
+dm [c] = [[Dm ${c}]]
+dn [c] = [[Dn ${c}]]
+do [c] = [[Do ${c}]]
+integer [@d] = [[I ${d}]]
+decimalDigit [c] = [[${c}]]
+hexDig [c] = [[${c}]]
+ws [@s] = [[W /${s}/]]
+wsChar [c] = [[${c}]]
+string [lq @cs rq] = [[S ${lq}${cs}${rq}]]
+stringChar [c] = [[${c}]]
+escapedChar [e c] = [[${c}]]
+simpleStringChar [c] = [[${c}]]
+namedMonth [m] = [[M ${m}]]
+january_long [c1 c2 c3 c4 c5 c6 c7] = [[january]]
+january_abbrev [c1 c2 c3] = [[january]]
+february_long [c1 c2 c3 c4 c5 c6 c7 c8] = [[february]]
+february_abbrev [c1 c2 c3] = [[february]]
+march_long [c1 c2 c3 c4 c5] = [[march]]
+march_abbrev [c1 c2 c3] = [[march]]
+april_long [c1 c2 c3 c4 c5] = [[april]]
+april_abbrev [c1 c2 c3] = [[april]]
+may_long [c1 c2 c3] = [[may]]
+june_long [c1 c2 c3 c4] = [[june]]
+june_abbrev [c1 c2 c3] = [[june]]
+july_long [c1 c2 c3 c4] = [[july]]
+july_abbrev [c1 c2 c3] = [[july]]
+august_long [c1 c2 c3 c4 c5 c6] = [[august]]
+august_abbrev [c1 c2 c3] = [[august]]
+september_long [c1 c2 c3 c4 c5 c6 c7 c8 c9] = [[september]]
+september_abbrev1 [c1 c2 c3 c4] = [[september]]
+september_abbrev2 [c1 c2 c3] = [[september]]
+october_long [c1 c2 c3 c4 c5 c6 c7] = [[october]]
+october_abbrev [c1 c2 c3] = [[october]]
+november_long [c1 c2 c3 c4 c5 c6 c7 c8] = [[november]]
+november_abbrev [c1 c2 c3] = [[november]]
+december_long [c1 c2 c3 c4 c5 c6 c7 c8] = [[december]]
+december_abbrev [c1 c2 c3] = [[december]]
+
+cA [c] = [[${c}]]
+cB [c] = [[${c}]]
+cC [c] = [[${c}]]
+cD [c] = [[${c}]]
+cE [c] = [[${c}]]
+cF [c] = [[${c}]]
+cG [c] = [[${c}]]
+cH [c] = [[${c}]]
+cI [c] = [[${c}]]
+cJ [c] = [[${c}]]
+cK [c] = [[${c}]]
+cL [c] = [[${c}]]
+cM [c] = [[${c}]]
+cN [c] = [[${c}]]
+cO [c] = [[${c}]]
+cP [c] = [[${c}]]
+cQ [c] = [[${c}]]
+cR [c] = [[${c}]]
+cS [c] = [[${c}]]
+cT [c] = [[${c}]]
+cU [c] = [[${c}]]
+cV [c] = [[${c}]]
+cW [c] = [[${c}]]
+cX [c] = [[${c}]]
+cY [c] = [[${c}]]
+cZ [c] = [[${c}]]
