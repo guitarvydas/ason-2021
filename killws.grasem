@@ -6,7 +6,8 @@ killws {
   token =  tag subtag? whiteSpace text? eol
 
   tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D"
-  subtag = "a" .. "o"
+  subtag =   "[" | "]" | "{" | "}" | "(" | ")"
+           | "/" | "." | ":" | "@" | "#" | "-" | "$" | "<" | ">"
   
   text = textChar+
   textChar = ~eol whiteSpace* any
