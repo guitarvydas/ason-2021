@@ -2,10 +2,12 @@ killws {
   output = asonToken+
   asonToken = singleLevelToken | delimiter | ws
 
-  singleLevelToken = ("A" | "S" | "I" | "M" | "H" | "U" | "N") whiteSpace text? eol
-  delimiter = "D" any whiteSpace* text eol
+  singleLevelToken =  tag whiteSpace text? eol
+  delimiter = tag any whiteSpace* text eol
   ws = "W" spc text eol
 
+  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D"
+  
   text = textChar+
   textChar = ~eol whiteSpace* any
   eol = "\n"+
