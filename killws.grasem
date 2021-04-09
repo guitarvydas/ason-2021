@@ -7,7 +7,7 @@ killws {
   integer = "I" text eol
   namedMonth = "M" text eol
   hex = "H" text eol
-  unknown = "U" eol
+  unknown = "U" whiteSpace* eol
   ident = "N" text eol
   ws = "W" text eol
 
@@ -15,7 +15,27 @@ killws {
 	      
   sub = "a" .. "o"
 
-  text = ~eol whiteSpace* any
+  text = textChar+
+  textChar = ~eol whiteSpace* any
   eol = "\n"+
   whiteSpace = " " | "\t"
 }
+
+output [@a] = [[${a}]]
+
+string [_ text _eol] = [[${_} ${text}\n]]
+delimiter [_ sub _eol] = [[${_}${sub}\n]]
+subDelimiter [s t] = [[${s} ${t}]]
+integer [_ text _eol] = [[${_} ${text}\n]]
+namedMonth [_ text _eol] = [[${_} ${text}\n]]
+hex [_ text _eol] = [[${_} ${text}\n]]
+unknown [_ text _eol] = [[${_} ${text}\n]]
+ident [_ text _eol] = [[${_} ${text}\n]]
+ws [_ text _eol] = [[]]
+
+sub [c] = [[${c}]]
+text [@t] = [[${t}]]
+textChar [@ws c] = [[${c}]]
+eol [@c] = [[]]
+whiteSpace [c] = [[]]
+
