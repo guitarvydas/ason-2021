@@ -11,24 +11,9 @@ killws {
   ident = "N" text eol
   ws = "W" text eol
 
-  subDelimiter = da | db | dc | dd | de | df | dg
-              | dh | di | dj | dk | dl | dm | dn | do
+  subDelimiter = sub text
 	      
-  da = "a" text
-  db = "b" text
-  dc = "c" text
-  dd = "d" text
-  de = "e" text
-  df = "f" text
-  dg = "g" text
-  dh = "h" text
-  di = "i" text
-  dj = "j" text
-  dk = "k" text
-  dl = "l" text
-  dm = "m" text
-  dn = "n" text
-  do = "o" text
+  sub = "a" .. "o"
 
   text = ~eol whiteSpace* any
   eol = "\n"+
