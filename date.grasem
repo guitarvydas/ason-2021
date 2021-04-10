@@ -2,19 +2,27 @@ dates {
   output = dateToken+
   dateToken = yyyymmddhhmmsstz |  yyyymmddhhmmss | yyyymmdd | mmdd | hhmmss | otherToken
 
-  yyyymmddhhmmsstz = yyyymmdd "-" hhmmss "-" tz
-  yyyymmddhhmmss = yyyymmdd "-" hhmmss
-  yyyymmdd = integerToken "-" integerToken "-" integerToken
-  mmdd = integerToken "-" integerToken
-  hhmmss = integerToken ":" integerToken ":" integerToken
+  yyyymmddhhmmsstz = yyyymmdd dash hhmmss dash tz
+  yyyymmddhhmmss = yyyymmdd dash hhmmss
+  yyyymmdd = integerToken dash month dash integerToken
+  mmdd = month dash integerToken
+  hhmmss = integerToken colon integerToken colon integerToken
+
+  otherToken =  numericalToken | basicToken
+  basicToken = tag subtag? whiteSpace text? eol
+  numericalToken = ntag nsubtag whiteSpace text text? eol
+
+
 
   tz = integerToken ":" integerToken
-
-  otherToken =  tag subtag? whiteSpace text? eol
+  month = namedMonthToken | integerToken
 
 
   integerToken = "I" spc text eol
+  namedMonthToken = "M" spc text eol
 
+  dash = "D" "-" spc text eol
+  colon = "D" ":" spc text eol
   dot = "D" "." spc text eol
   dollar = "D" "$" spc text eol
   comma = "D" "," spc text eol
@@ -23,6 +31,9 @@ dates {
   tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D"
   subtag =   "[" | "]" | "{" | "}" | "(" | ")"
            | "/" | "." | ":" | "@" | "#" | "-" | "$" | "<" | ">"
+
+  ntag = "b"
+  nsubtag = "P" | "R" | "T" | "$" | "E" | "F"
   
   text = whiteSpace *textChar+
   textChar = ~eol any
@@ -31,3 +42,36 @@ dates {
   whiteSpace = " " | "\t"
 }
 
+output [@t] = [[${t}]]
+dateToken [t] = [[${t}]]
+yyyymmddhhmmsstz [date dash1 hours dash2 tz] = [[cZ ${date} ${hours} ${tz}\n]]
+yyyymmddhhmmss [date dash1 hours] = [[cY ${date} ${hours}\n]]
+yyyymmdd [i1 dash1 mon dash2 i3] = [[cD ${i1} ${mon} ${i3}\n]]
+mmdd [mon dash1 i2] = [[cP ${mon} ${i2}\n]]
+hhmmss [i1 colon1 i2 colon2 i3] = [[cH ${i1} ${i2} ${i3}\n]]
+otherToken [t] = [[${t}]]
+basicToken [tag subtag ws text eol] = [[${tag}${subtag} ${text}\n]]
+numericalToken [tag subtag ws text1 text2 eol] = [[${tag}${subtag} ${text1} ${text2}\n]]
+
+tz [i1 colon i2] = [[${i1} ${i2}]]
+month [t] = [[${t}]]
+
+
+integerToken [itag spc text nl] = [[${text}]]
+namedMonthToken [tag spc text nl] = [[${text}]]
+
+dash [d dot spc text eol] = [[]]
+colon [d dot spc text eol] = [[]]
+dot [d dot spc text eol] = [[]]
+dollar [d dollar spc text eol] = [[]]
+comma [d comma spc text eol] = [[]]
+x [tag spc x eol] = [[]]
+
+tag [c] = [[${c}]]
+subtag [c] = [[${c}]]
+
+text [ws @cs] = [[${cs}]]
+textChar [c] = [[${c}]]
+eol [@c] = [[${c}]]
+spc [c] = [[${c}]]
+whiteSpace [c] = [[${c}]]
