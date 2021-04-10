@@ -1,0 +1,33 @@
+dates {
+  output = dateToken+
+  dateToken = yyyymmddhhmmsstz |  yyyymmddhhmmss | yyyymmdd | mmdd | hhmmss | otherToken
+
+  yyyymmddhhmmsstz = yyyymmdd "-" hhmmss "-" tz
+  yyyymmddhhmmss = yyyymmdd "-" hhmmss
+  yyyymmdd = integerToken "-" integerToken "-" integerToken
+  mmdd = integerToken "-" integerToken
+  hhmmss = integerToken ":" integerToken ":" integerToken
+
+  tz = integerToken ":" integerToken
+
+  otherToken =  tag subtag? whiteSpace text? eol
+
+
+  integerToken = "I" spc text eol
+
+  dot = "D" "." spc text eol
+  dollar = "D" "$" spc text eol
+  comma = "D" "," spc text eol
+  x = "N" spc "x" eol
+
+  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D"
+  subtag =   "[" | "]" | "{" | "}" | "(" | ")"
+           | "/" | "." | ":" | "@" | "#" | "-" | "$" | "<" | ">"
+  
+  text = whiteSpace *textChar+
+  textChar = ~eol any
+  eol = "\n"+
+  spc = whiteSpace
+  whiteSpace = " " | "\t"
+}
+
