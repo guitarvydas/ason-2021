@@ -1,5 +1,258 @@
+{ from: mc
+
+   { statement: 1111-11-11
      { year: 1111
        tx: [
          [ 11-11 ??? -111.51 pppppp ]
        ]
      }
+     { year: 1111
+       tx: [
+         [ 11-15 cccccccc -15.55 cccccccc ]
+         [ 11-11 lit 5.51 xxxxxxx]
+       ]
+     }
+     balance: -11.15
+   }
+   { statement: 1111-11-11
+     { year : 1111
+       tx : [ [ 11-11 lit 5.51 xxxxxxx ] ]
+       balance: -11.15
+     }
+   }
+   { statement: 1111-11-11
+     { year: 1111
+       tx: [ [ 11-11 lit 5.55 xxxxxxx] ]
+       balance: -15.55
+     }
+   }
+
+
+  { statement: 1115-11-11
+    { year: 1115
+      tx: [ [11-11 ??? -151.51 pppppp]
+            [11-15 lit 51.15 m]
+          ] 
+    }
+    { year: 1111
+      tx: [
+        [ jan-11 cccccccc -11.51 cccccccc ]
+        [ jan-11 lit xxxxxxx 11.15 xxxxxxx ]
+        [ jan-15 lit 111 s ]
+        [ jan-11 hw 55.15 "s r" ]
+        [ jan-11 car 5 tpa]
+        [ jan-15 hw 115.15 u ]
+        [ jan-15 hw 115.51 w {hst: 1}]
+        [ jan-15 1151.15 "j a"]
+      ]
+      balance: 1515.55
+    }
+  }
+
+  { statement: 1111-apr-11
+    { year: 1111
+      tx: [
+        [ may-11 ??? -11.51 pppppp ]
+        [ may-11 lit 11.15 xxxxxxx ]
+      ]
+      balance: 11.15
+    }
+  }
+
+  { statement: 1111-aug-11
+    { year: 1111
+      tx: [
+        [ aug-15 ??? -11.55 pppppp ]
+        [ sep-11 lit 11.15 xxxxxxx ]
+      ]
+      balance: 11.11
+    }
+  }
+
+  { statement: 1111-feb-11
+    { year: 1111
+      tx: [
+        [ mar-11 ??? -11.55 pppppp ]
+        [ feb-11 off 15.55 "l l" {hst: 1} ]
+        [ mar-11 lit 11.55 xxxxxxx ]
+        [ mar-15 dues 111 dia ] 
+        [ mar-15 hw 15.51 "c c" { hst: 1 }]
+        [ mar-15 lit 5.15 "g" ]
+        [ mar-15 hw -15.51 "c c" {hst: 1}]
+        [ mar-15 hw 15.51 "c c" {hst: 1}]
+      ]
+      balance: 155.51
+    }
+  }
+
+  { statement: 1111-jan-11
+    { year: 1111
+      tx: [
+        [ jan-11 ??? -1515.55 pppppp ]
+        [ feb-11 lit 11.55 xxxxxxx ]
+      ]
+      balance: 11.55
+    }
+  }
+
+  { statement: 1111-jul-11
+    { year: 1111
+      tx: [
+        [ jul-11 ??? -115.51 pppppp ]
+        [ aug-11 lit 11.55 xxxxxxx ]
+      ]
+      balance: 11.55
+    }
+  }
+
+  { statement: 1111-jun-11
+    { year: 1111
+      tx: [
+        [ jul-11 ??? -515.11 pppppp ]
+        [ jun-11 draw 11.55 "" ]
+        [ jun-15 draw 55 "cc cc" ]
+        [ jul-11 lit 11.55 xxxxxxx ]
+        [ jul-11 draw 55 "cc cc" ]
+        [ jul-11 draw 51 "" ]
+        [ jul-15 draw 55 "cc cc" ]
+        [ jul-11 draw 5.51 "" ]
+      ]
+      balance: 115.51
+    }
+  }
+
+  { statement: 1111-mar-11
+    { year: 1111
+      tx: [
+        [ mar-11 ??? -155.51 pppppp ]
+        [ apr-11 lit 11.51 xxxxxxx ]
+        [ apr-15 tel 11.11 tttttttt ]
+      ]
+      balance: 15.15
+    }
+  }
+
+  { statement: 1111-may-11
+    { year: 1111
+      tx: [
+        [ jun-11 ??? -11.55 pppppp ]
+        [ jun-11 lit 11.11 xxxxxxx ]
+        [ may-11 tel 511.11 jjjjjj {hst: 1}]
+      ]
+      balance: 515.11
+    }
+  }
+
+  { statement: 1111-nov-11
+    { year: 1111
+      tx: [
+        [ dec-11 ??? -111.51 pppppp ]
+        [ dec-11 lit 11.11 xxxxxxx ]
+        [ nov-15 draw 15.51 ""]
+        [ dec-15 lit 55.51 m]
+      ]
+      balance: 55.15
+    }
+  }
+
+  { statement: 1111-oct-11
+    { year: 1111
+      tx: [
+        [ nov-15 ??? -151.51 pppppp ]
+        [ oct-11 draw 15.51 ""]
+        [ oct-11 draw 11.55 ""]
+        [ nov-11 lit 11.51 xxxxxxx ]
+        [ nov-11 lit 15.15 yyyyyy]
+      ]
+      balance: 111.51
+    }
+  }
+
+  { statement: 1111-sep-11
+    { year: 1111
+      tx: [
+        [ sep-11 ??? -11.11 pppppp ]
+        [ oct-11 lit 11.55 xxxxxxx ]
+        [ sep-11 draw 11.15 "k s"]
+        [ sep-11 dues 111 d {hst: 1}]
+        [ sep-15 lit 15.55 yyyyyy {hst: 1}]
+        [ oct-11 draw 15.11 "" ]
+        [ oct-15 draw 51.51 "" ]
+      ]
+      balance: 151.51
+    }
+  }
+
+
+  { statement: 1115-aug-11
+    { year: 1115
+      tx: [
+        [ sep-11 ??? -151.51 pppppp ]
+        [ aug-11 lit 15.51 yyyyyy {hst: 1}]
+        [ aug-15 lit 11.55 yyyyyy {hst: 1}]
+        [ aug-11 lit 15.11 yyyyyy {hst: 1}]
+        [ sep-11 lit 11.51 xxxxxxx ]
+        [ sep-11 lit 15.11 yyyyyy {hst: 1}]
+      ]
+      balance: 115.55
+    }
+  }
+
+  { statement: 1115-jul-11
+    { year: 1115
+      tx: [
+        [ jul-11 ??? -151.51 pppppp ]
+        [ jul-11 lit 55.15 yyyyyy {hst: 1}]
+        [ aug-11 lit 11.55 xxxxxxx ]
+        [ aug-15 lit 15.51 yyyyyy {hst: 1}]
+        [ aug-11 draw 11.51 "yyyyyy m" ]
+        [ aug-11 lit 15.51 yyyyyy {hst: 1}]
+      ]
+      balance: 151.51
+    }
+  }
+
+  { statement: 1115-nov-11
+    { year: 1115
+      tx: [
+        [ jul-11 ??? -1555.15 pppppp ]
+        [ nov-15 pro 151.11 jjjjjj {hst: 1}]
+        [ dec-11 lit 11.51 xxxxxxx ]
+        [ dec-11 ent 55 dia {hst: 1}]
+        [ dec-11 tel 5.55 tttttttt {hst: 1}]
+      ]
+      balance: 151.51
+    }
+  }
+
+  { statement: 1115-oct-11
+    { year: 1115
+      tx: [
+        [ oct-11 ??? -115.55 pppppp ]
+        [ oct-15 hw 155.15 "c c" {hst: 1}]
+        [ oct-15 hw 11.11 s {hst: 1}]
+        [ nov-11 lit 11.51 xxxxxxx ]
+        [ nov-11 pro 1155.11 jjjjjj {hst: 1}]
+        [ nov-15 lit 15.51 yyyyyy {hst: 1}]
+        [ nov-11 draw 151.55 aaaaaa]
+        [ nov-11 off 15.51 aaaaaa {hst: 1}]
+        [ nov-11 tel 5.15 tttttttt {hst: 1}]
+      ]
+      balance: 1555.15
+    }
+  }
+
+  { statement: 1115-sep-11
+    { year: 1115
+      tx: [
+        [ oct-11 ??? -115.55 pppppp ]
+        [ sep-11 lit 11.55 yyyyyy {hst: 1}]
+        [ sep-11 lit 51.11 yyyyyy {hst: 1}]
+        [ oct-11 lit 11.51 xxxxxxx ]
+      ]
+      balance: 51.11
+    }
+  }
+
+}
+
