@@ -1,0 +1,89 @@
+words {
+  output = blocksToken+
+  blocksToken = 
+
+    | arrayBlock
+    | objectBlock
+    | expressionBlock
+
+    | otherToken
+
+  arrayBlock = lbracket otherToken* rbracket
+  objectBlock = lbrace otherToken* rbrace
+  expressionBlock = lpar otherToken* rpar
+
+
+  otherToken =   threeTextToken | twoTextToken | basicToken | zeroTextToken
+  threeTextToken = tag subtag? whiteSpace text text text eol
+  twoTextToken = tag subtag? whiteSpace text text eol
+  basicToken = tag subtag? whiteSpace text eol
+  zeroTextToken = "U" eol
+
+
+  ident = "N" spc text eol
+  lbracket = "D" "[" spc text eol
+  rbracket = "D" "]" spc text eol
+  lbrace = "D" "{" spc text eol
+  rbrace = "D" "}" spc text eol
+  lpar = "D" "(" spc text eol
+  rpar = "D" ")" spc text eol
+  
+  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D" | "b" | "c" | "d" | "e"
+  subtag =   "[" | "]" | "{" | "}" | "(" | ")"
+           | "/" | "." | ":" | "@" | "#" | "-" | "$" | "<" | ">"
+           | "P" | "R" | "T" | "$" | "E" | "F"
+	   | "D" | "Z" | "Y" | "P" | "H" 
+	   | "B" | "@" | "<" | "%" | "U"
+ 	   | "U" | "S" | "F" | "/" | "." | ":" | "!" | "?"
+ 
+  text = whiteSpace *textChar+
+  textChar = ~eol any
+  eol = "\n"+
+  spc = whiteSpace
+  whiteSpace = " " | "\t"
+}
+
+
+output [@t] = [[${t}]]
+wToken [t] = [[${t}]]
+
+getUnevalField [c id d id2] = [[eU ${id} ${id2}\n]]
+setfield [id d id2 c] = [[eS ${id} ${id2}\n]]
+selectfield [id d id2] = [[eF ${id} ${id2}\n]]
+pathRefinement [id s id2] = [[e/ ${id} ${id2}\n]]
+
+literal [at id] = [[e@ ${id}\n]]
+symbol [q id] = [[e' ${id}\n]]
+refinement [s id] = [[e/ ${id}\n]]
+selector [d id] = [[e. ${id}\n]]
+getword [c id] = [[e: ${id}\n]]
+
+defineword [id c] = [[e! ${id}\n]]
+useword [id] = [[e? ${id}\n]]
+
+
+otherToken [t] = [[${t}]]
+threeTextToken [t @s ws t1 t2 t3 eol] = [[${t}${s} ${t1} ${t2} ${t3}\n]]
+twoTextToken [t @s ws t1 t2 eol] = [[${t}${s} ${t1} ${t2}\n]]
+basicToken [t @s ws t1 eol] = [[${t}${s} ${t1}\n]]
+zeroTextToken [t eol] = [[${t}\n]]
+
+
+ident [tag spc text eol] = [[${text}]]
+at [d at spc text eol] = [[]]
+colon [d c spc text eol] = [[]]
+dot [d dot spc text eol] = [[]]
+slash [d s spc text eol] = [[]]
+squote [d q spc text eol] = [[]]
+
+
+
+
+tag [c] = [[${c}]]
+subtag [c] = [[${c}]]
+
+text [ws @cs] = [[${cs}]]
+textChar [c] = [[${c}]]
+eol [@c] = [[${c}]]
+spc [c] = [[${c}]]
+whiteSpace [c] = [[${c}]]
