@@ -6,4 +6,5 @@ cp small-test.gl test.gl
 ../grasem/run.bash numerical.grasem <_temp2 >_temp3
 ../grasem/run.bash date.grasem <_temp3 >_temp4
 ../grasem/run.bash stringsAndBinary.grasem <_temp4 >_temp5
-cat _temp5
+../grasem/run.bash words.grasem <_temp5 >_temp6
+cat _temp6

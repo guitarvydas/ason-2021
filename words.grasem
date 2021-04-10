@@ -1,0 +1,65 @@
+words {
+  output = wToken+
+  wToken = 
+
+    | getUnevalField
+    | setfield
+    | selectfield
+    | pathRefinement
+
+    | literal
+    | symbol
+    | refinement
+    | selector
+    | getword
+
+    | defineword
+    | useword
+
+    | otherToken
+
+  getUnevalField = colon ident dot ident
+  setfield = ident dot ident colon
+  selectfield = ident dot ident
+  pathRefinement = ident slash ident
+
+  literal = at ident
+  symbol = squote ident
+  refinement = slash ident
+  selector = dot ident
+  getword =  colon ident
+
+  defineword = ident colon
+  useword = ident
+
+
+  otherToken =   threeTextToken | twoTextToken | basicToken | zeroTextToken
+  threeTextToken = tag subtag? whiteSpace text text text eol
+  twoTextToken = tag subtag? whiteSpace text text eol
+  basicToken = tag subtag? whiteSpace text eol
+  zeroTextToken = "U" eol
+
+
+  ident = "N" spc text eol
+  at = "D" "@" spc text eol
+  colon = "D" ":" spc text eol
+  dot = "D" "." spc text eol
+  slash = "D" "/" spc text eol
+  squote = "D" "'" spc text eol
+  
+  integerToken = "I" spc text eol
+  hexToken = "H" spc text eol
+
+  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D" | "b" | "c" | "d"
+  subtag =   "[" | "]" | "{" | "}" | "(" | ")"
+           | "/" | "." | ":" | "@" | "#" | "-" | "$" | "<" | ">"
+           | "P" | "R" | "T" | "$" | "E" | "F"
+	   | "D" | "Z" | "Y" | "P" | "H" 
+	   | "B" | "@" | "<" | "%" | "U"
+  
+  text = whiteSpace *textChar+
+  textChar = ~eol any
+  eol = "\n"+
+  spc = whiteSpace
+  whiteSpace = " " | "\t"
+}
