@@ -5,7 +5,7 @@ numericalValues {
   hex = hexToken
   pair = integerToken x integerToken
   range = integerToken dot dot integerToken
-  tuple = integerToken dot integerToken dot
+  tuple = integerToken dot integerToken dot integerToken
   currency = dollar integerToken dot integerToken
   eufloat = integerToken comma integerToken
   float = integerToken dot integerToken
@@ -24,9 +24,39 @@ numericalValues {
   subtag =   "[" | "]" | "{" | "}" | "(" | ")"
            | "/" | "." | ":" | "@" | "#" | "-" | "$" | "<" | ">"
   
-  text = textChar+
-  textChar = ~eol whiteSpace* any
+  text = whiteSpace *textChar+
+  textChar = ~eol any
   eol = "\n"+
   spc = whiteSpace
   whiteSpace = " " | "\t"
 }
+
+output [@t] = [[${t}]]
+numericalToken [t] = [[${t}]]
+
+hex [v] = [[H ${v}\n]]
+pair [i1 x i2] = [[bP ${i1} ${i2}\n]]
+range [i1 d1 d2 i2] = [[bR ${i1} ${i2}\n]]
+tuple [i1 d1 i2 d2 i3] = [[bT ${i1} ${i2} ${i3}\n]]
+currency [d i1 d1 i2] = [[b$ ${i1} ${i2}\n]]
+eufloat [i1 c i2] = [[bE ${i1} ${i2}\n]]
+float [i1 d i2] = [[bF ${i1} ${i2}\n]]
+integer [v] = [[I ${v}\n]]
+otherToken [tag subtag ws text nl] = [[${tag}${subtag} ${text}\n]]
+
+hexToken [htag spc text nl] = [[${text}]]
+integerToken [itag spc text nl] = [[${text}]]
+
+dot [d dot spc text eol] = [[]]
+dollar [d dollar spc text eol] = [[]]
+comma [d comma spc text eol] = [[]]
+x [tag spc x eol] = [[]]
+
+tag [c] = [[${c}]]
+subtag [c] = [[${c}]]
+
+text [ws @cs] = [[${cs}]]
+textChar [c] = [[${c}]]
+eol [@c] = [[${c}]]
+spc [c] = [[${c}]]
+whiteSpace [c] = [[${c}]]
