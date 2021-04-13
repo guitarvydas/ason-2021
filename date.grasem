@@ -2,7 +2,7 @@ dates {
   output = dateToken+
   dateToken = yyyymmddhhmmsstz |  yyyymmddhhmmss | yyyymmdd | mmdd | hhmmss | otherToken
 
-  yyyymmddhhmmsstz = yyyymmdd dash hhmmss dash tz
+  yyyymmddhhmmsstz = yyyymmdd dash hhmmss dashOrPlus tz
   yyyymmddhhmmss = yyyymmdd dash hhmmss
   yyyymmdd = integerToken dash month dash integerToken
   mmdd = month dash integerToken
@@ -21,7 +21,9 @@ dates {
   integerToken = "I" spc text eol
   namedMonthToken = "M" spc text eol
 
+  dashOrPlus = dash | plus
   dash = "D" "-" spc text eol
+  plus = "D" "+" spc text eol
   colon = "D" ":" spc text eol
   dot = "D" "." spc text eol
   dollar = "D" "$" spc text eol
@@ -30,7 +32,7 @@ dates {
 
   tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D"
   subtag =   "[" | "]" | "{" | "}" | "(" | ")"
-           | "/" | "." | ":" | "@" | "#" | "-" | "$" | "<" | ">"
+           | "/" | "." | ":" | "@" | "#" | "-" | "+" | "$" | "<" | ">"
 
   ntag = "b"
   nsubtag = "P" | "R" | "T" | "$" | "E" | "F"

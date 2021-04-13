@@ -1,4 +1,4 @@
-asonToken {
+isonToken {
   output = asonToken+
   asonToken = string | delimiter | integer | namedMonth | hex | ws | unknown | ident
 
@@ -11,7 +11,7 @@ asonToken {
   identFollow = "0" .. "9" | "_" | ident1
 
   delimiter = da | db | dc | dd | de | df | dg
-              | dh | di | dj | dk | dl | dm | dn | do
+              | dh | di | dj | dk | dl | dm | dn | do | dp
 	      
   da = "["
   db = "]"
@@ -28,6 +28,7 @@ asonToken {
   dm = "$"
   dn = "<"
   do = ">"
+  dp = "+"
 
   integer = decimalDigit+
   decimalDigit = "0" .. "9"
@@ -121,6 +122,7 @@ dl [c] = [[D- -]]
 dm [c] = [[D$ $]]
 dn [c] = [[D< <]]
 do [c] = [[D> >]]
+dp [c] = [[D+ +]]
 
 integer [@d] = [[I ${encodeURIComponent(d)}]]
 decimalDigit [c] = [[${encodeURIComponent(c)}]]

@@ -22,7 +22,7 @@ numericalValues {
 
   tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D"
   subtag =   "[" | "]" | "{" | "}" | "(" | ")"
-           | "/" | "." | ":" | "@" | "#" | "-" | "$" | "<" | ">"
+           | "/" | "." | ":" | "@" | "#" | "-" | "+" | "$" | "<" | ">"
   
   text = whiteSpace *textChar+
   textChar = ~eol any
