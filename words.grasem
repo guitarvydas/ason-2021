@@ -68,7 +68,7 @@ wToken [t] = [[${t}]]
 getUnevalField [c id d id2] = [[eU ${id} ${id2}\n]]
 setfield [id d id2 c] = [[eS ${id} ${id2}\n]]
 selectfield [id d id2] = [[eF ${id} ${id2}\n]]
-pathRefinement [id s id2] = [[e/ ${id} ${id2}\n]]
+pathRefinement [id s id2] = [[eP ${id} ${id2}\n]]
 
 literal [at id] = [[e@ ${id}\n]]
 symbol [q id] = [[e' ${id}\n]]
