@@ -1,4 +1,4 @@
-isonToken {
+asonToken {
   output = asonToken+
   asonToken = string | delimiter | integer | namedMonth | hex | ws | unknown | ident
 
