@@ -8,4 +8,6 @@ cp big-test.gl test.gl
 ../grasem/run.bash stringsAndBinary.grasem <_temp4 >_temp5
 ../grasem/run.bash words.grasem <_temp5 >_temp6
 ../grasem/run.bash blocks.grasem <_temp6 >_temp7
-cat _temp7
+../grasem/run.bash emitter.grasem <_temp7 >_temp8
+cat _temp8
+

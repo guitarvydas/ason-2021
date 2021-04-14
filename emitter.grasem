@@ -1,0 +1,125 @@
+identityEmitter {
+  stream = token+
+  token =   string | delimiter | integer | namedMonth | hex | ws | unknown | ident
+          | pair | range | tuple | currency | float | eufloat
+          | yyyymmddhhmmsstz |  yyyymmddhhmmss | yyyymmdd | mmdd | hhmmss
+	  | binaryBase64 | email | url | path | hypertextTag
+	  | getUnevalField | setfield | selectField | pathRefinement | literal | symbol | refinement | selector | getword | defineword | useword
+	  | lbracket | rbracket | lbrace | rbrace | lpar | rpar
+	  
+  string = "S" text eol
+  delimiter = "D" any text eol
+  integer = "I" text eol
+  namedMonth = "M" text eol
+  hex = "H" text eol
+  ws = "W" text eol
+  unknown = "U" eol
+  ident = "N" text eol
+
+  pair = "bP" text text eol
+  range = "bR" text text eol
+  tuple = "bT" text text text eol
+  currency = "b$" text text eol
+  float = "bF" text text eol
+  eufloat = "bE" text text eol
+
+  yyyymmddhhmmsstz = "cZ" text text text text text text text text eol
+  yyyymmddhhmmss = "cY" text text text text text text eol
+  yyyymmdd = "cD" text text text eol
+  mmdd = "cP" text text eol
+  hhmmss = "cH" text text text eol
+
+  binaryBase64 = "dB" text eol
+  email = "d@" text text eol
+  url = "dU" text eol
+  path = "d%" text eol
+  hypertextTag = "d<" text eol
+
+  defineword =  "e!" text eol
+  useword = "e?" text eol
+  getword = "e:" text eol
+  selector = "e." text eol
+  refinement = "e/" text eol
+  symbol = "e'" text eol
+  literal = "e@" text eol
+  pathRefinement = "eP" text text eol
+  selectField = "eF" text text eol
+  setfield = "eS" text text eol
+  getUnevalField = "eU" text text eol
+
+  lbracket = "f[" eol
+  rbracket = "f]" eol
+  lbrace = "f{" eol
+  rbrace = "f}" eol
+  lpar = "f(" eol
+  rpar = "f)" eol
+
+  text = spc* notWs* spc*
+  spc = " "
+  notWs = ~spc ~eol any
+  eol = nls | end
+  nls = "\n"+
+}
+
+  stream [@t] = [[${t}]]
+  token [t] = [[${t}]]
+
+  string [tag text eol] = [[${tag}${text}\n]]
+  delimiter [tag subTag text eol] = [[${tag}${subTag}${text}\n]]
+  integer [tag text eol] = [[${tag}${text}\n]]
+  namedMonth [tag text eol] = [[${tag}${text}\n]]
+  hex [tag text eol] = [[${tag}${text}\n]]
+  ws [tag text eol] = [[${tag}${text}\n]]
+  unknown [tag eol] = [[${tag}\n]]
+  ident [tag text eol] = [[${tag}${text}\n]]
+
+  pair [tag text text2 eol] = [[${tag}${text}${text2}\n]]
+  range [tag text text2 eol] = [[${tag}${text}${text2}\n]]
+  tuple [tag text text2 text3 eol] = [[${tag}${text}${text2}${text3}\n]]
+  currency [tag text text2 eol] = [[${tag}${text}${text2}\n]]
+  float [tag text text2 eol] = [[${tag}${text}${text2}\n]]
+  eufloat [tag text text2 eol] = [[${tag}${text}${text2}\n]]
+
+  yyyymmddhhmmsstz [tag text text2 text3 text4 text5 text6 text7 text8 eol] =
+    [[${tag}${text}${text2}${text3}${text4}${text5}${text6}${text7}${text8}\n]]
+  yyyymmddhhmmss [tag text text2 text3 text4 text5 text6 eol] =
+    [[${tag}${text}${text2}${text3}${text4}${text5}${text6}\n]]
+  yyyymmdd [tag text text2 text3 eol] =
+    [[${tag}${text}${text2}${text3}\n]]
+  mmdd [tag text text2 eol] =
+    [[${tag}${text}${text2}\n]]
+  hhmmss [tag text text2 text3 eol] =
+    [[${tag}${text}${text2}${text3}\n]]
+
+  binaryBase64 [tag text eol] = [[${tag}${text}\n]]
+  email [tag text text2 eol] = [[${tag}${text}${text2}\n]]
+  url [tag text eol] = [[${tag}${text}\n]]
+  path [tag text eol] = [[${tag}${text}\n]]
+  hypertextTag [tag text eol] = [[${tag}${text}\n]]
+
+  defineword [tag text eol] = [[${tag}${text}\n]]
+  useword [tag text eol] = [[${tag}${text}\n]]
+  getword [tag text eol] = [[${tag}${text}\n]]
+  selector [tag text eol] = [[${tag}${text}\n]]
+  refinement [tag text eol] = [[${tag}${text}\n]]
+  symbol [tag text eol] = [[${tag}${text}\n]]
+  literal [tag text eol] = [[${tag}${text}\n]]
+  pathRefinement [tag text text2 eol] = [[${tag}${text}${text2}\n]]
+  selectField [tag text text2 eol] = [[${tag}${text}${text2}\n]]
+  setfield [tag text text2 eol] = [[${tag}${text}${text2}\n]]
+  getUnevalField [tag text text2 eol] = [[${tag}${text}${text2}\n]]
+
+  lbracket [tag eol] = [[${tag}\n]]
+  rbracket [tag eol] = [[${tag}\n]]
+  lbrace [tag eol] = [[${tag}\n]]
+  rbrace [tag eol] = [[${tag}\n]]
+  lpar [tag eol] = [[${tag}\n]]
+  rpar [tag eol] = [[${tag}\n]]
+
+
+  text [@spc @notWs @spc2] = [[${spc}${notWs}${spc2}]]
+  spc [c] = [[${c}]]
+  notWs [c] = [[${c}]]
+  
+  eol [c] = [[${c}]]
+  nls [@cs] = [[${cs}]]
