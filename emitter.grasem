@@ -1,11 +1,12 @@
 identityEmitter {
   stream = token+
-  token =   string | delimiter | integer | namedMonth | hex | ws | unknown | ident
-          | pair | range | tuple | currency | float | eufloat
+  token =   pair | range | tuple | currency 
           | yyyymmddhhmmsstz |  yyyymmddhhmmss | yyyymmdd | mmdd | hhmmss
 	  | binaryBase64 | email | url | path | hypertextTag
 	  | getUnevalField | setfield | selectField | pathRefinement | literal | symbol | refinement | selector | getword | defineword | useword
 	  | lbracket | rbracket | lbrace | rbrace | lpar | rpar
+          | float | eufloat
+          | string | delimiter | integer | namedMonth | hex | ws | unknown | ident
 	  
   string = "S" text eol
   delimiter = "D" any text eol
@@ -47,12 +48,12 @@ identityEmitter {
   setfield = "eS" text text eol
   getUnevalField = "eU" text text eol
 
-  lbracket = "f[" eol
-  rbracket = "f]" eol
-  lbrace = "f{" eol
-  rbrace = "f}" eol
-  lpar = "f(" eol
-  rpar = "f)" eol
+  lbracket = "f[" spc "[" eol
+  rbracket = "f]" spc "]" eol
+  lbrace = "f{" spc "{" eol
+  rbrace = "f}" spc "}" eol
+  lpar = "f(" spc "(" eol
+  rpar = "f)" spc ")" eol
 
   text = spc* notWs* spc*
   spc = " "
@@ -109,12 +110,12 @@ identityEmitter {
   setfield [tag text text2 eol] = [[${tag}${text}${text2}\n]]
   getUnevalField [tag text text2 eol] = [[${tag}${text}${text2}\n]]
 
-  lbracket [tag eol] = [[${tag}\n]]
-  rbracket [tag eol] = [[${tag}\n]]
-  lbrace [tag eol] = [[${tag}\n]]
-  rbrace [tag eol] = [[${tag}\n]]
-  lpar [tag eol] = [[${tag}\n]]
-  rpar [tag eol] = [[${tag}\n]]
+  lbracket [tag spc char eol] = [[${tag}${spc}${char}\n]]
+  rbracket [tag spc char eol] = [[${tag}${spc}${char}\n]]
+  lbrace [tag spc char eol] = [[${tag}${spc}${char}\n]]
+  rbrace [tag spc char eol] = [[${tag}${spc}${char}\n]]
+  lpar [tag spc char eol] = [[${tag}${spc}${char}\n]]
+  rpar [tag spc char eol] = [[${tag}${spc}${char}\n]]
 
 
   text [@spc @notWs @spc2] = [[${spc}${notWs}${spc2}]]
