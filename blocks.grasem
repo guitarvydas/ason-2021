@@ -1,43 +1,40 @@
-words {
+blocks {
   output = blocksToken+
   blocksToken = 
 
     | arrayBlock
     | objectBlock
     | expressionBlock
-
+    
     | otherToken
 
-  arrayBlock = lbracket otherToken* rbracket
-  objectBlock = lbrace otherToken* rbrace
-  expressionBlock = lpar otherToken* rpar
+  arrayBlock = lbracket blocksToken* rbracket
+  objectBlock = lbrace blocksToken* rbrace
+  expressionBlock = lpar blocksToken* rpar
 
-  arrayBlockBegin = lbracket
-
-  otherToken =   threeTextToken | twoTextToken | basicToken | zeroTextToken
-  threeTextToken = tag subtag? whiteSpace text text text eol
-  twoTextToken = tag subtag? whiteSpace text text eol
-  basicToken = tag subtag? whiteSpace text eol
+  otherToken = ~blockToken threeTwoBasicZeroToken
+  threeTwoBasicZeroToken = threeTextToken | twoTextToken | basicToken | zeroTextToken
+  threeTextToken = tagField whiteSpace text text text eol
+  twoTextToken = tagField whiteSpace text text eol
+  basicToken = tagField whiteSpace text eol
   zeroTextToken = "U" eol
 
 
   ident = "N" spc text eol
-  lbracket = "D" "[" spc text eol
-  rbracket = "D" "]" spc text eol
-  lbrace = "D" "{" spc text eol
+
+  blockToken = lbracket | rbracket | lbrace | rbrace | lpar | rpar
+  lbracket = "D" "[" spc any eol
+  rbracket = "D" "]" spc any eol
+  lbrace = "D" "{" spc char eol
   rbrace = "D" "}" spc text eol
   lpar = "D" "(" spc text eol
   rpar = "D" ")" spc text eol
-  
-  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D" | "b" | "c" | "d" | "e"
-  subtag =   "[" | "]" | "{" | "}" | "(" | ")"
-           | "/" | "." | ":" | "@" | "#" | "-" | "+" | "$" | "<" | ">"
-           | "P" | "R" | "T" | "$" | "E" | "F"
-	   | "D" | "Z" | "Y" | "P" | "H" 
-	   | "B" | "@" | "<" | "%" | "U"
- 	   | "U" | "S" | "F" | "/" | "." | ":" | "!" | "?"
+
+  tagField = any any --tagWithSubTag
+             any     --tagOnly
  
-  text = whiteSpace *textChar+
+  char = textChar
+  text = textChar+
   textChar = ~eol any
   eol = "\n"+
   spc = whiteSpace
@@ -47,9 +44,9 @@ words {
 
 output [@t] = [[${t}]]
 blocksToken [t] = [[${t}]]
-arrayBlock [l @t r] = [[]]
-objectBlock [l @t r] = [[]]
-arrayBlock [l @t r] = [[]]
+arrayBlock [l @t r] = [[${l}${t}${r}]]
+objectBlock [l @t r] = [[${l}${t}${r}]]
+arrayBlock [l @t r] = [[${l}${t}${r}]]
 
 otherToken [t] = [[${t}]]
 threeTextToken [t @s ws t1 t2 t3 eol] = [[${t}${s} ${t1} ${t2} ${t3}\n]]
@@ -57,12 +54,12 @@ twoTextToken [t @s ws t1 t2 eol] = [[${t}${s} ${t1} ${t2}\n]]
 basicToken [t @s ws t1 eol] = [[${t}${s} ${t1}\n]]
 zeroTextToken [t eol] = [[${t}\n]]
 
-lbracket [tag subtag spc c eol] = [[f${c}\n]]
-rbracket [tag subtag spc c eol] = [[f${c}\n]]
-lbrace [tag subtag spc c eol] = [[f${c}\n]]
-rbrace [tag subtag spc c eol] = [[f${c}\n]]
-lpar [tag subtag spc c eol] = [[f${c}\n]]
-rpar [tag subtag spc c eol] = [[f${c}\n]]
+lbracket [tag subtag spc c eol] = [[f${subtag} ${c}\n]]
+rbracket [tag subtag spc c eol] = [[f${subtag} ${c}\n]]
+lbrace [tag subtag spc c eol] = [[f${subtag} ${c}\n]]
+rbrace [tag subtag spc c eol] = [[f${subtag} ${c}\n]]
+lpar [tag subtag spc c eol] = [[f${subtag} ${c}\n]]
+rpar [tag subtag spc c eol] = [[f${subtag} ${c}\n]]
 
 
 ident [tag spc text eol] = [[${text}]]
@@ -72,7 +69,7 @@ ident [tag spc text eol] = [[${text}]]
 tag [c] = [[${c}]]
 subtag [c] = [[${c}]]
 
-text [ws @cs] = [[${cs}]]
+text [@cs] = [[${cs}]]
 textChar [c] = [[${c}]]
 eol [@c] = [[${c}]]
 spc [c] = [[${c}]]
