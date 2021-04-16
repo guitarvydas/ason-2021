@@ -1,0 +1,69 @@
+expr {
+  main = expr+ 
+  expr = objectGroup | arrayGroup | expressionGroup | defineWordGroup | primary
+
+  objectGroup = lbraceToken expr* rbraceToken
+  arrayGroup = lbracketToken expr* rbracketToken
+  expressionGroup = lparToken expr* rparToken
+  defineWordGroup = defineWordToken expr
+  
+  groupBegin (groupBegin) = lbraceToken | rbraceToken | lbracketToken | rbracketToken | lparToken | rparToken
+
+  include(`boilerplate.ohm')
+}
+
+
+  main [@expr] = [[${expr}]]
+  expr [e] = [[${e}]]
+
+  objectGroup [lb @e rb] =
+[[G asonObject nil
+${e}g asonObject\n]]
+  arrayGroup [lb @e rb] =
+[[G asonArray nil
+${e}g asonArray\n]]
+  expressionGroup [lb @e rb] =
+[[G asonExpression nil
+${e}g asonExpression\n]]
+
+  defineWordGroup [lhs rhs] = 
+[[G defineWord ${lhs}
+${rhs}
+g defineWord
+]]
+  
+  groupBegin [t] = [[${t}]]
+
+  lbraceToken [tag subtag spc text eol] = [[${tag}${subtag} ${text}\n]]
+  rbraceToken [tag subtag spc text eol] = [[${tag}${subtag} ${text}\n]]
+  lbracketToken [tag subtag spc text eol] = [[${tag}${subtag} ${text}\n]]
+  rbracketToken [tag subtag spc text eol] = [[${tag}${subtag} ${text}\n]]
+  lparToken [tag subtag spc text eol] = [[${tag}${subtag} ${text}\n]]
+  rparToken [tag subtag spc text eol] = [[${tag}${subtag} ${text}\n]]
+
+  defineWordToken [tag spc text eol] = [[${text}]]
+
+  primary [t] = [[${t}]]
+  tripleTextToken [tag spc0 text1 spc1 text2 spc2 text3 eol] = [[${tag}${spc0}${text1}${spc1}${text2}${spc2}${text3}${eol}]]
+  doubleTextToken [tag spc0 text1 spc1 text2 eol] = [[${tag}${spc0}${text1}${spc1}${text2}${eol}]]
+  singleTextToken [tag spc0 text1 eol] = [[${tag}${spc0}${text1}${eol}]]
+  noTextToken [tag eol] = [[${tag}${eol}]]
+
+  unknownTag [tag] = [[${tag}]]
+
+  tag [tag _lookahead] = [[${tag}]]
+  endTag [c] = [[${c}]]
+
+  tagcode [t] = [[${t}]]
+  basicTag [t] = [[${t}]]
+  delimiterTag [t] = [[${t}]]
+  numericalTag [t] = [[${t}]]
+  dateTag [t] = [[${t}]]
+  stringsTag [t] = [[${t}]]
+  wordsTag [t] = [[${t}]]
+
+  text [@cs] = [[${cs}]]
+  textChar [c] = [[${c}]]
+  spc [c] = [[${c}]]
+  eol [@c] = [[${c}]]
+  newline [nl] = [[${nl}]]

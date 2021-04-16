@@ -1,8 +1,9 @@
 killws {
   output = asonToken+
-  asonToken = ws | token
+  asonToken = ws | comment | token
 
   ws = "W" spc text eol
+  comment = "C" spc text eol
   token =  tag subtag? whiteSpace text? eol
 
   tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D"
@@ -20,6 +21,7 @@ output [@a] = [[${a}]]
 
 token [tag @subtag ws @text _eol] = [[${tag}${subtag} ${text}\n]]
 ws [tag s text _eol] = [[]]
+comment [tag s text _eol] = [[]]
 
 text [@t] = [[${t}]]
 textChar [@ws c] = [[${c}]]

@@ -38,7 +38,7 @@ dates {
   nsubtag = "P" | "R" | "T" | "$" | "E" | "F"
   
   text = whiteSpace *textChar+
-  textChar = ~eol any
+  textChar = ~eol ~whiteSpace any
   eol = "\n"+
   spc = whiteSpace
   whiteSpace = " " | "\t"

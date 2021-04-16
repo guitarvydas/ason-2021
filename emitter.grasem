@@ -1,66 +1,4 @@
-identityEmitter {
-  stream = token+
-  token =   pair | range | tuple | currency 
-          | yyyymmddhhmmsstz |  yyyymmddhhmmss | yyyymmdd | mmdd | hhmmss
-	  | binaryBase64 | email | url | path | hypertextTag
-	  | getUnevalField | setfield | selectField | pathRefinement | literal | symbol | refinement | selector | getword | defineword | useword
-	  | lbracket | rbracket | lbrace | rbrace | lpar | rpar
-          | float | eufloat
-          | string | delimiter | integer | namedMonth | hex | ws | unknown | ident
-	  
-  string = "S" text eol
-  delimiter = "D" any text eol
-  integer = "I" text eol
-  namedMonth = "M" text eol
-  hex = "H" text eol
-  ws = "W" text eol
-  unknown = "U" eol
-  ident = "N" text eol
-
-  pair = "bP" text text eol
-  range = "bR" text text eol
-  tuple = "bT" text text text eol
-  currency = "b$" text text eol
-  float = "bF" text text eol
-  eufloat = "bE" text text eol
-
-  yyyymmddhhmmsstz = "cZ" text text text text text text text text eol
-  yyyymmddhhmmss = "cY" text text text text text text eol
-  yyyymmdd = "cD" text text text eol
-  mmdd = "cP" text text eol
-  hhmmss = "cH" text text text eol
-
-  binaryBase64 = "dB" text eol
-  email = "d@" text text eol
-  url = "dU" text eol
-  path = "d%" text eol
-  hypertextTag = "d<" text eol
-
-  defineword =  "e!" text eol
-  useword = "e?" text eol
-  getword = "e:" text eol
-  selector = "e." text eol
-  refinement = "e/" text eol
-  symbol = "e'" text eol
-  literal = "e@" text eol
-  pathRefinement = "eP" text text eol
-  selectField = "eF" text text eol
-  setfield = "eS" text text eol
-  getUnevalField = "eU" text text eol
-
-  lbracket = "f[" spc "[" eol
-  rbracket = "f]" spc "]" eol
-  lbrace = "f{" spc "{" eol
-  rbrace = "f}" spc "}" eol
-  lpar = "f(" spc "(" eol
-  rpar = "f)" spc ")" eol
-
-  text = spc* notWs* spc*
-  spc = " "
-  notWs = ~spc ~eol any
-  eol = nls | end
-  nls = "\n"+
-}
+include(`emitter.ohm')
 
   stream [@t] = [[${t}]]
   token [t] = [[${t}]]
@@ -98,7 +36,6 @@ identityEmitter {
   path [tag text eol] = [[${tag}${text}\n]]
   hypertextTag [tag text eol] = [[${tag}${text}\n]]
 
-  defineword [tag text eol] = [[${tag}${text}\n]]
   useword [tag text eol] = [[${tag}${text}\n]]
   getword [tag text eol] = [[${tag}${text}\n]]
   selector [tag text eol] = [[${tag}${text}\n]]
@@ -118,9 +55,19 @@ identityEmitter {
   rpar [tag spc char eol] = [[${tag}${spc}${char}\n]]
 
 
-  text [@spc @notWs @spc2] = [[${spc}${notWs}${spc2}]]
+  stext [spc t] = [[${spc}${t}]]
+  setext [spc t] = [[${spc}${t}]]
+
+  text [@t] = [[${t}]]
   spc [c] = [[${c}]]
   notWs [c] = [[${c}]]
   
   eol [c] = [[${c}]]
   nls [@cs] = [[${cs}]]
+
+  group [c t1 t2 eol] = [[${c}${t1}${t2}${eol} ]]
+  nilgroup [c t1 spc t2 eol] = [[${c}${t1}${spc}${t2}${eol}]]
+  endgroup [c text eol] = [[${c}${text}${eol}
+  group [tag t1 t2 eol] = [[${tag}${t1}${t2}${eol}]]
+  endgroup [tag text eol] = [[${tag}${text}${eol}]]
+  

@@ -1,6 +1,6 @@
 asonToken {
   output = asonToken+
-  asonToken = string | delimiter | integer | namedMonth | hex | ws | unknown | ident
+  asonToken = comment | string | delimiter | integer | namedMonth | hex | ws | unknown | ident
 
   unknown = "?" "?" "?"
 
@@ -34,6 +34,11 @@ asonToken {
   decimalDigit = "0" .. "9"
   hexDig = "A" .. "F" | decimalDigit
 
+  comment = ";" anyToEol
+  anyToEol = commentChar* eol
+  commentChar = ~eol any
+  eol = "\n"
+  
   ws = wsChar+
   wsChar = " " | "\n" | "\t"
   string = "\"" stringChar* "\""
@@ -186,3 +191,8 @@ cX [c] = [[${encodeURIComponent(c)}]]
 cY [c] = [[${encodeURIComponent(c)}]]
 cZ [c] = [[${encodeURIComponent(c)}]]
 
+comment [sc chars] = [[C ;${encodeURIComponent(chars)}]]
+anyToEol [@cs eol] = [[${cs}${eol}]]
+commentChar [c] = [[${c}]]
+eol [c] = [[${c}]]
+  
