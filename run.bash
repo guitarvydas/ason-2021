@@ -30,11 +30,11 @@ fi
 
 
 
-echo 'generic emitter'
-m4 emitter.grasem >_.grasem
+# echo 'generic emitter'
+# m4 emitter.grasem >_.grasem
 
-# echo 'lisp emitter'
-# m4 emitter-lisp.grasem >_.grasem
+echo 'lisp emitter'
+m4 emitter-lisp.grasem >_.grasem
 
 ../grasem/run.bash _.grasem <_temp7 >_temp8
 
