@@ -34,7 +34,7 @@ stringsAndBinary {
 	   | "D" | "Z" | "Y" | "P" | "H" 
   
   text = whiteSpace *textChar+
-  textChar = ~eol any
+  textChar = ~eol ~whiteSpace any
   eol = "\n"+
   spc = whiteSpace
   whiteSpace = " " | "\t"

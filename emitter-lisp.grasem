@@ -1,67 +1,5 @@
-lispEmitter {
-  stream = token+
-  token =   pair | range | tuple | currency 
-          | yyyymmddhhmmsstz |  yyyymmddhhmmss | yyyymmdd | mmdd | hhmmss
-	  | binaryBase64 | email | url | path | hypertextTag
-	  | getUnevalField | setfield | selectField | pathRefinement | literal | symbol | refinement | selector | getword | defineword | useword
-	  | lbracket | rbracket | lbrace | rbrace | lpar | rpar
-          | float | eufloat
-          | string | delimiter | integer | namedMonth | hex | ws | unknown | ident
+include(`emitter.ohm')
 
-  string = "S" etext eol
-  delimiter = "D" any text eol
-  integer = "I" text eol
-  namedMonth = "M" text eol
-  hex = "H" text eol
-  ws = "W" text eol
-  unknown = "U" eol
-  ident = "N" text eol
-
-  pair = "bP" text text eol
-  range = "bR" text text eol
-  tuple = "bT" text text text eol
-  currency = "b$" text text eol
-  float = "bF" text text eol
-  eufloat = "bE" text text eol
-
-  yyyymmddhhmmsstz = "cZ" text text text text text text text text eol
-  yyyymmddhhmmss = "cY" text text text text text text eol
-  yyyymmdd = "cD" text text text eol
-  mmdd = "cP" text text eol
-  hhmmss = "cH" text text text eol
-
-  binaryBase64 = "dB" text eol
-  email = "d@" etext etext eol
-  url = "dU" etext eol
-  path = "d%" etext eol
-  hypertextTag = "d<" etext eol
-
-  defineword =  "e!" etext eol
-  useword = "e?" etext eol
-  getword = "e:" etext eol
-  selector = "e." etext eol
-  refinement = "e/" etext eol
-  symbol = "e'" etext eol
-  literal = "e@" etext eol
-  pathRefinement = "eP" etext etext eol
-  selectField = "eF" etext etext eol
-  setfield = "eS" etext etext eol
-  getUnevalField = "eU" etext etext eol
-
-  lbracket = "D[" spc "[" eol
-  rbracket = "D]" spc "]" eol
-  lbrace = "D{" spc "{" eol
-  rbrace = "D}" spc "}" eol
-  lpar = "D(" spc "(" eol
-  rpar = "D)" spc ")" eol
-
-  etext = text
-  text = spc* notWs* spc*
-  spc = " "
-  notWs = ~spc ~eol any
-  eol = nls | end
-  nls = "\n"+
-}
 
   stream [@t] = [[(${t})]]
   token [t] = [[${t}]]
@@ -99,7 +37,6 @@ lispEmitter {
   path [tag text eol] = [[ (path ${text}") ]]
   hypertextTag [tag text eol] = [[ (hypertext-tag ${text}) \n]]
 
-  defineword [tag text eol] = [[ (define-word ${text}) ]]
   useword [tag text eol] = [[ (use-word ${text}) ]]
   getword [tag text eol] = [[ (get-word ${text}) ]]
   selector [tag text eol] = [[ (selector ${text}) ]]
@@ -111,18 +48,18 @@ lispEmitter {
   setfield [tag text text2 eol] = [[ (set-field ${text} ${text2}) ]]
   getUnevalField [tag text text2 eol] = [[ (get-unevaled-field ${text} ${text2}) ]]
 
-  lbracket [tag spc char eol] = [[ (ason-array-block ]]
-  rbracket [tag spc char eol] = [[) ]]
-  lbrace [tag spc char eol] = [[ (ason-object-block ]]
-  rbrace [tag spc char eol] = [[) ]]
-  lpar [tag spc char eol] = [[ (ason-expr-block ]]
-  rpar [tag spc char eol] = [[) ]]
 
+  stext [spc t] = [[${t}]]
+  setext [spc t] = [[${t}]]
 
   etext [s] = [[ ${enc (s)}]]
-  text [@spc @notWs @spc2] = [[${notWs}]]
+  text [@notWs] = [[${notWs}]]
   spc [c] = [[${c}]]
   notWs [c] = [[${c}]]
   
   eol [c] = [[${c}]]
   nls [@cs] = [[${cs}]]
+
+  group [c t1 t2 eol] = [[ (${t1} ${t2} ]]
+  nilgroup [c t1 spc t2 eol] = [[ (${t1} ]]
+  endgroup [c text eol] = [[)]]

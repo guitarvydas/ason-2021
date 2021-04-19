@@ -1,0 +1,35 @@
+  lbraceToken (open brace) = "D" "{" spc "{" eol
+  rbraceToken (close brace) = "D" "}" spc "}" eol
+  lbracketToken (open bracket) = "D" "[" spc "[" eol
+  rbracketToken (close bracket) = "D" "]" spc "]" eol
+  lparToken (open bracket) = "D" "(" spc "(" eol
+  rparToken (close bracket) = "D" ")" spc ")" eol
+  defineWordToken = "e!" spc text eol
+
+  primary = ~groupBegin (tripleTextToken | doubleTextToken | singleTextToken | noTextToken)
+  tripleTextToken = tag spc text spc text spc text eol
+  doubleTextToken = tag spc text spc text eol
+  singleTextToken = tag spc text eol
+  noTextToken = unknownTag eol
+
+  unknownTag (unknown) = "U"
+
+  tag (tag) = tagcode &endTag
+  endTag = space | eol | end
+
+  tagcode = basicTag | numericalTag | dateTag | stringsTag | wordsTag
+  basicTag = delimiterTag | "H" | "N" | "I" | "W" | "S" | "M" | "C" | "U"
+  delimiterTag =  "D[" | "D]" | "D{" | "D}" | "D(" | "D)"
+                | "D/" | "D." | "D:" | "D@" | "D#" | "D-" 
+		| "D+" | "D$" | "D<" | "D>"  
+  numericalTag = "bP" | "bR" | "bT" | "b$" | "bE" | "bF"
+  dateTag = "cZ" | "cY" | "cD" | "cP" | "cH"
+  stringsTag = "dB" | "d@" | "d<" | "d%" | "dU"
+  wordsTag =   "eU" | "eS" | "eF" | "eP" | "e@" | "e'"
+             | "e/" | "e." | "e:" | "e!" | "e?"
+  
+  text = ~tag textChar+
+  textChar = ~spc ~eol ~end any
+  spc (space) = " " | "\t"
+  eol (eol) = newline+
+  newline (newline) = "\n"
