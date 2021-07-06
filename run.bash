@@ -3,22 +3,30 @@ set -e
 #cp big-test.gl test.gl
 cp small-test.gl test.gl
 echo 'ason'
-../grasem/run.bash ason.grasem <test.gl >_temp1
+../grasem/run.bash ason.grasem >_ason.js
+node _ason.js <test.gl >_temp1
 echo 'killws'
-../grasem/run.bash killws.grasem <_temp1 >_temp2
+../grasem/run.bash killws.grasem >_killws.js
+node _killws.js <_temp1 >_temp2
 echo 'numerical'
-../grasem/run.bash numerical.grasem <_temp2 >_temp3
+../grasem/run.bash numerical.grasem >_numerical.js
+node _numerical.js <_temp2 >_temp3
 echo 'date'
-../grasem/run.bash date.grasem <_temp3 >_temp4
+../grasem/run.bash date.grasem >_date.js
+node _date.js <_temp3 >_temp4
 echo 'strings and binary'
-../grasem/run.bash stringsAndBinary.grasem <_temp4 >_temp5
+../grasem/run.bash stringsAndBinary.grasem >_stringsAndBinary.js
+node _stringsAndBinary.js <_temp4 >_temp5
 echo 'negative numbers'
-../grasem/run.bash negativenum.grasem <_temp5 >_temp5a
+../grasem/run.bash negativenum.grasem >_negativenum.js
+node _negativenum.js <_temp5 >_temp5a
 echo 'words'
-../grasem/run.bash words.grasem <_temp5a >_temp6
+../grasem/run.bash words.grasem >_words.js
+node _words.js <_temp5a >_temp6
 echo 'expr'
 m4 expr.grasem > _.grasem
-../grasem/run.bash _.grasem <_temp6 >_temp7
+../grasem/run.bash _.grasem >_expr.js
+node _expr.js <_temp6 >_temp7
 
 if `grep -q 'e!' _temp7`
 then
