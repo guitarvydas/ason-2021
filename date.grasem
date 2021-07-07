@@ -10,7 +10,10 @@ dates {
 
   otherToken =  numericalToken | basicToken
   basicToken = tag subtag? whiteSpace text? eol
-  numericalToken = ntag nsubtag whiteSpace text text? eol
+  numericalToken = numericalToken1 | numericalToken2 | numericalToken3
+  numericalToken1 = ntag nsubtag whiteSpace text eol
+  numericalToken2 = ntag nsubtag whiteSpace text text eol
+  numericalToken3 = ntag nsubtag whiteSpace text text text eol
 
 
 
@@ -53,7 +56,10 @@ mmdd [mon dash1 i2] = [[cP ${mon} ${i2}\n]]
 hhmmss [i1 colon1 i2 colon2 i3] = [[cH ${i1} ${i2} ${i3}\n]]
 otherToken [t] = [[${t}]]
 basicToken [tag subtag ws text eol] = [[${tag}${subtag} ${text}\n]]
-numericalToken [tag subtag ws text1 text2 eol] = [[${tag}${subtag} ${text1} ${text2}\n]]
+numericalToken [n] = [[${n}]]
+numericalToken1 [tag subtag ws text1 eol] = [[${tag}${subtag} ${text1}\n]]
+numericalToken2 [tag subtag ws text1 text2 eol] = [[${tag}${subtag} ${text1} ${text2}\n]]
+numericalToken3 [tag subtag ws text1 text2 text3 eol] = [[${tag}${subtag} ${text1} ${text2} ${text3}\n]]
 
 tz [i1 colon i2] = [[${i1} ${i2}]]
 month [t] = [[${t}]]

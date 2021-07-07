@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 #cp big-test.gl test.gl
-cp small-test.gl test.gl
+#cp small-test.gl test.gl
+cp a-test.gl test.gl
 echo 'ason'
 ../grasem/run.bash ason.grasem >_ason.js
 node _ason.js <test.gl >_temp1
@@ -44,5 +45,5 @@ fi
 echo 'lisp emitter'
 m4 emitter-lisp.grasem >_.grasem
 
-../grasem/run.bash _.grasem <_temp7 >_temp8
-
+../grasem/run.bash _.grasem >_emitter-lisp.js
+node _emitter-lisp.js <_temp7 >test.lisp

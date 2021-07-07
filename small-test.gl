@@ -3,7 +3,7 @@
      { year: 2021
 ; comment string
        [
-         [ jul-23 ??? -333.53 pppppp ]
+         [ jul-23 xyz -123.53 pppppp ]
        ]
      }
      balance : 1234.56
