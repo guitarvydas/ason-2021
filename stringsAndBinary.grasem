@@ -43,11 +43,11 @@ stringsAndBinary {
 output[@t] = [[${t}]]
 
 sbToken [t] = [[${t}]]
-binaryBase64 [o h] = [[dB ${h}]]
-email [id1 at id2] = [[d@ ${id1} ${id2}]]
-hypertextTag [lt id gt] =[[d< ${id}]]
-path [p id] = [[d% ${id}]]
-url [id c s1 s2] = [[dU ${id}]]
+binaryBase64 [o h] = [[dB ${h}\n]]
+email [id1 at id2] = [[d@ ${id1} ${id2}\n]]
+hypertextTag [lt id gt] =[[d< ${id}\n]]
+path [p id] = [[d% ${id}\n]]
+url [id c s1 s2] = [[dU ${id}\n]]
 
 otherToken [t] = [[${t}]]
 threeTextToken [t @s ws t1 t2 t3 eol] = [[${t}${s} ${t1} ${t2} ${t3}\n]]
