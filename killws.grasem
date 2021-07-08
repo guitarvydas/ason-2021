@@ -6,7 +6,7 @@ killws {
   comment = "C" spc text eol
   token =  tag subtag? whiteSpace text? eol
 
-  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D"
+  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D" | "B"
   subtag =   "[" | "]" | "{" | "}" | "(" | ")"
            | "/" | "." | ":" | "@" | "#" | "-" | "+" | "$" | "<" | ">"
   
@@ -30,4 +30,3 @@ whiteSpace [c] = [[]]
 
 tag [c] = [[${c}]]
 subtag [c] = [[${c}]]
-

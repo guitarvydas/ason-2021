@@ -3,10 +3,12 @@ stringsAndBinary {
   sbToken = binaryBase64 | email | url | path | hypertextTag | otherToken
 
   binaryBase64 = octothorpe hexToken
-  email = identToken at identToken
+  email = identToken at identToken emailTail?
   hypertextTag = lt identToken gt
   path = percent identToken
-  url = identToken colon slash slash
+  url = identToken colon slash slash tblob
+
+  emailTail = dot identToken
 
   otherToken =   threeTextToken | twoTextToken | basicToken | zeroTextToken
   threeTextToken = tag subtag? whiteSpace text text text eol
@@ -20,14 +22,16 @@ stringsAndBinary {
 
   octothorpe = "D" "#" spc text eol
   at = "D" "@" spc text eol
+  dot = "D" "." spc text eol
   percent = "D" "%" spc text eol
   lt = "D" "<" spc text eol
   gt = "D" ">" spc text eol
   slash = "D" "/" spc text eol
   colon = "D" ":" spc text eol
   identToken = "N" spc text eol
+  tblob = "B" spc text eol
 
-  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D" | "b" | "c"
+  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D" | "b" | "c" | "B"
   subtag =   "[" | "]" | "{" | "}" | "(" | ")"
            | "/" | "." | ":" | "@" | "#" | "-" | "+" | "$" | "<" | ">"
            | "P" | "R" | "T" | "$" | "E" | "F"
@@ -44,10 +48,12 @@ output[@t] = [[${t}]]
 
 sbToken [t] = [[${t}]]
 binaryBase64 [o h] = [[dB ${h}\n]]
-email [id1 at id2] = [[d@ ${id1} ${id2}\n]]
+email [id1 at id2 @tail] = [[d@ ${id1} ${id2} ${tail}\n]]
 hypertextTag [lt id gt] =[[d< ${id}\n]]
 path [p id] = [[d% ${id}\n]]
-url [id c s1 s2] = [[dU ${id}\n]]
+url [id c s1 s2 blob] = [[dU ${id} ${blob}\n]]
+
+emailTail [dot id] = [[${id}]]
 
 otherToken [t] = [[${t}]]
 threeTextToken [t @s ws t1 t2 t3 eol] = [[${t}${s} ${t1} ${t2} ${t3}\n]]
@@ -60,12 +66,14 @@ hexToken [t ws t1 eol] = [[${t} ${t1}\n]]
 
 octothorpe [d dot spc text eol] = [[]]
 at [d dot spc text eol] = [[]]
+dot [d dot spc text eol] = [[]]
 percent [d dot spc text eol] = [[]]
 lt [d dot spc text eol] = [[]]
 gt [d dot spc text eol] = [[]]
 slash [d dot spc text eol] = [[]]
 colon [d dot spc text eol] = [[]]
 identToken [d spc text eol] = [[${text}]]
+tblob [d spc text eol] = [[${text}]]
 
 
 tag [c] = [[${c}]]

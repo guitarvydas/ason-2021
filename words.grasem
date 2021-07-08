@@ -47,7 +47,7 @@ words {
   slash = "D" "/" spc text eol
   squote = "D" "'" spc text eol
   
-  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D" | "b" | "c" | "d"
+  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D" | "b" | "c" | "d" | "B"
   subtag =   "[" | "]" | "{" | "}" | "(" | ")"
            | "/" | "." | ":" | "@" | "#" | "-" | "+" | "$" | "<" | ">"
            | "P" | "R" | "T" | "$" | "E" | "F"
@@ -60,6 +60,7 @@ words {
   spc = whiteSpace
   whiteSpace = " " | "\t"
 }
+
 
 
 output [@t] = [[${t}]]
@@ -105,3 +106,4 @@ textChar [c] = [[${c}]]
 eol [@c] = [[${c}]]
 spc [c] = [[${c}]]
 whiteSpace [c] = [[${c}]]
+

@@ -1,13 +1,92 @@
-include(`emitter.ohm')
+emitter {
+  stream = token+
+  token =   nilgroup | definewordgroup | group | endgroup 
+          | pair | range | tuple | currency 
+          | yyyymmddhhmmsstz |  yyyymmddhhmmss | yyyymmdd | mmdd | hhmmss
+	  | binaryBase64 | email | url | path | hypertextTag
+	  | getUnevalField | setfield | selectField | pathRefinement | literal | symbol | refinement | selector | getword | useword
+	  | lbracket | rbracket | lbrace | rbrace | lpar | rpar
+          | float | eufloat
+          | string | delimiter | integer | namedMonth | hex | ws | unknown | ident
 
+  notEndGroupToken = ~endgroup token
+
+  nilgroup = "G" stext spc "nil" eol notEndGroupToken+ endgroup
+  definewordgroup = ~nilgroup "G" spc "defineWord" stext eol notEndGroupToken+ endgroup
+  group = ~nilgroup ~definewordgroup "G" stext stext eol notEndGroupToken+ endgroup
+  endgroup = "g" stext eol
+  
+  string = "S" setext eol
+  delimiter = "D" any stext eol
+  integer = "I" stext eol
+  namedMonth = "M" stext eol
+  hex = "H" stext eol
+  ws = "W" stext eol
+  unknown = "U" eol
+  ident = "N" stext eol
+
+  pair = "bP" stext stext eol
+  range = "bR" stext stext eol
+  tuple = "bT" stext stext stext eol
+  currency = "b$" stext stext eol
+  float = "bF" stext stext eol
+  eufloat = "bE" stext stext eol
+
+  yyyymmddhhmmsstz = "cZ" stext mon stext stext stext stext stext stext eol
+  yyyymmddhhmmss = "cY" stext mon stext stext stext stext eol
+  yyyymmdd = "cD" stext mon stext eol
+  mmdd = "cP" mon stext eol
+  hhmmss = "cH" stext stext stext eol
+
+  binaryBase64 = "dB" stext eol
+  email = "d@" setext setext setext? eol
+  url = "dU" setext setext eol
+  path = "d%" setext eol
+  hypertextTag = "d<" setext eol
+
+  useword = "e?" setext eol
+  getword = "e:" setext eol
+  selector = "e." setext eol
+  refinement = "e/" setext eol
+  symbol = "e'" setext eol
+  literal = "e@" setext eol
+  pathRefinement = "eP" setext setext eol
+  selectField = "eF" setext setext eol
+  setfield = "eS" setext setext eol
+  getUnevalField = "eU" setext setext eol
+
+  lbracket = "D[" spc "[" eol
+  rbracket = "D]" spc "]" eol
+  lbrace = "D{" spc "{" eol
+  rbrace = "D}" spc "}" eol
+  lpar = "D(" spc "(" eol
+  rpar = "D)" spc ")" eol
+
+  setext = spc text
+  stext = spc text
+  mon = numericmonth | textmonth
+  numericmonth = spc ~kw dig+
+  textmonth = stext
+
+  kw = "nil"
+  
+  etext = text
+  text = ~kw notWs*
+  spc = " "
+  notWs = ~spc ~eol any
+  eol = nls | end
+  nls = "\n"+
+  dig = "0" .. "9"
+}
 
   stream [@t] = [[(${t})]]
   token [t] = [[${t}]]
+  notEndGroupToken [t] = [[${t}]]
 
   string [tag text eol] = [[ (ason-string ${text}) ]]
   delimiter [tag subTag text eol] = [[ #\\${subTag} ]]
   integer [tag text eol] = [[ ${text} ]]
-  namedMonth [tag text eol] = [[ "${text}" ]]
+  namedMonth [tag text eol] = [[ '${text} ]]
   hex [tag text eol] = [[ #x${text} ]]
   ws [tag text eol] = [[]]
   unknown [tag eol] = [[ ??? ]]
@@ -21,27 +100,27 @@ include(`emitter.ohm')
   eufloat [tag text text2 eol] = [[ ${text}.${text2} ]]
 
   yyyymmddhhmmsstz [tag text text2 text3 text4 text5 text6 text7 text8 eol] =
-    [[ (yyymmddhhmmsstz ${text} ${text2} ${text3} ${text4} ${text5} ${text6} ${text7} ${text8}) ]]
+    [[ (yyyymmddhhmmsstz ${text} '${text2} ${text3} ${text4} ${text5} ${text6} ${text7} '${text8}) ]]
   yyyymmddhhmmss [tag text text2 text3 text4 text5 text6 eol] =
-    [[ (yymmddhhmmss ${text} ${text2} ${text3} ${text4} ${text5} ${text6}) ]]
+    [[ (yymmddhhmmss ${text} '${text2} ${text3} ${text4} ${text5} ${text6}) ]]
   yyyymmdd [tag text text2 text3 eol] =
     [[ (yymmdd ${text} ${text2} ${text3}) ]]
   mmdd [tag text text2 eol] =
-    [[ (mmdd ${text} ${text2}) ]]
+    [[ (mmdd '${text} ${text2}) ]]
   hhmmss [tag text text2 text3 eol] =
     [[ (hhmmss ${text} ${text2} ${text3}) ]]
 
   binaryBase64 [tag text eol] = [[ (bin64 ${text}) ]]
-  email [tag text text2 eol] = [[ (email ${text} ${text2}) ]]
-  url [tag text eol] = [[ (url ${text}) ]]
-  path [tag text eol] = [[ (path ${text}") ]]
+  email [tag text text2 domain eol] = [[ (email "${text}" "${text2}" "${domain}") ]]
+  url [tag text blobtext eol] = [[ (url "${text}" "${blobtext}") ]]
+  path [tag text eol] = [[ (path ${text}) ]]
   hypertextTag [tag text eol] = [[ (hypertext-tag ${text}) \n]]
 
-  useword [tag text eol] = [[ (use-word ${text}) ]]
-  getword [tag text eol] = [[ (get-word ${text}) ]]
-  selector [tag text eol] = [[ (selector ${text}) ]]
-  refinement [tag text eol] = [[ (refinement ${text}) ]]
-  symbol [tag text eol] = [[ (symbol ${text}) ]]
+  useword [tag text eol] = [[ (use-word '${text}) ]]
+  getword [tag text eol] = [[ (get-word '${text}) ]]
+  selector [tag text eol] = [[ (selector '${text}) ]]
+  refinement [tag text eol] = [[ (refinement '${text}) ]]
+  symbol [tag text eol] = [[ (symbol '${text}) ]]
   literal [tag text eol] = [[ (literal ${text}) ]]
   pathRefinement [tag text text2 eol] = [[ (path-refinement ${text} ${text2})\n]]
   selectField [tag text text2 eol] = [[ (select-field ${text} ${text2}) ]]
@@ -50,6 +129,9 @@ include(`emitter.ohm')
 
 
   stext [spc t] = [[${t}]]
+  mon [t] = [[${t}]]
+  numericmonth [ws @d] = [[${d}]]
+  textmonth [s] = [['${s}]]
   setext [spc t] = [[${t}]]
 
   etext [s] = [[ ${enc (s)}]]
@@ -60,6 +142,10 @@ include(`emitter.ohm')
   eol [c] = [[${c}]]
   nls [@cs] = [[${cs}]]
 
-  group [c t1 t2 eol] = [[ (${t1} ${t2} ]]
-  nilgroup [c t1 spc t2 eol] = [[ (${t1} ]]
-  endgroup [c text eol] = [[)]]
+
+  group [c t1 t2 eol @stream endg] = [[(${t1} ${t2} ${stream}]]
+  definewordgroup [ws c t1 t2 eol @stream endg] = [[(${t1} '${t2} ${stream})]]
+  nilgroup [c t1 spc t2 eol @stream endg] = [[(${t1} ${stream})]]
+  endgroup [c text eol] = [[]]
+
+  dig [c] = [[${c}]]

@@ -1,16 +1,16 @@
 asonToken {
   output = asonToken+
-  asonToken = comment | string | delimiter | integer | namedMonth | hex | ws | unknown | ident
+  asonToken = comment | string | hex | delimiter | integer | namedMonth | ws | unknown | ident
 
   unknown = "?" "?" "?"
 
-  hex = "#" hexDig+
+  hex = "#" hexdig+
 
   ident = ~namedMonth ident1 identFollow*
   ident1 = "a" .. "z" | "A" .. "Z"
-  identFollow = "0" .. "9" | "_" | ident1
+  identFollow = "-" | "0" .. "9" | "_" | ident1
 
-  delimiter = da | db | dc | dd | de | df | dg
+  delimiter =   da | db | dc | dd | de | df | dg
               | dh | di | dj | dk | dl | dm | dn | do | dp
 	      
   da = "["
@@ -32,7 +32,7 @@ asonToken {
 
   integer = decimalDigit+
   decimalDigit = "0" .. "9"
-  hexDig = "A" .. "F" | decimalDigit
+  hexdig = "A" .. "F" | decimalDigit
 
   comment = ";" anyToEol
   anyToEol = commentChar* eol
@@ -112,6 +112,7 @@ ident1 [c] = [[${encodeURIComponent(c)}]]
 identFollow [c] = [[${encodeURIComponent(c)}]]
 
 delimiter [d] = [[${d}]]
+
 da [c] = [[D[ []]
 db [c] = [[D${c} ${c}]]
 dc [c] = [[D{ {]]
@@ -131,7 +132,7 @@ dp [c] = [[D+ +]]
 
 integer [@d] = [[I ${encodeURIComponent(d)}]]
 decimalDigit [c] = [[${encodeURIComponent(c)}]]
-hexDig [c] = [[${encodeURIComponent(c)}]]
+hexdig [c] = [[${encodeURIComponent(c)}]]
 ws [@s] = [[W ${encodeURIComponent(s)}]]
 wsChar [c] = [[${encodeURIComponent(c)}]]
 string [lq @cs rq] = [[S ${encodeURIComponent(lq + cs + rq)}]]

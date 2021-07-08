@@ -25,7 +25,7 @@ negnum {
   slash = "D" "/" spc text eol
   squote = "D" "'" spc text eol
   
-  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D" | "b" | "c" | "d"
+  tag = "A" | "S" | "I" | "M" | "H" | "U" | "N" | "D" | "b" | "c" | "d" | "B"
   subtag =   "[" | "]" | "{" | "}" | "(" | ")"
            | "/" | "." | ":" | "@" | "#" | "-" | "+" | "$" | "<" | ">"
            | "P" | "R" | "T" | "$" | "E" | "F"
@@ -38,7 +38,6 @@ negnum {
   spc = whiteSpace
   whiteSpace = " " | "\t"
 }
-
 
 output [@t] = [[${t}]]
 wToken [t] = [[${t}]]

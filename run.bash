@@ -1,14 +1,23 @@
 #!/bin/bash
 set -e
-#cp big-test.gl test.gl
-#cp small-test.gl test.gl
-cp a-test.gl test.gl
+trap 'catch' ERR
+
+catch () {
+    echo '*** fatal error in run.bash'
+    exit 1
+}
+cp big-test.gl test.ason
+#cp small-test.gl test.ason
+#cp ason-test.ason test.ason
 echo 'ason'
 ../grasem/run.bash ason.grasem >_ason.js
-node _ason.js <test.gl >_temp1
+node _ason.js <test.ason >_temp1
+echo 'prews'
+../grasem/run.bash prews.grasem >_prews.js
+node _prews.js <_temp1 >_temp1a
 echo 'killws'
 ../grasem/run.bash killws.grasem >_killws.js
-node _killws.js <_temp1 >_temp2
+node _killws.js <_temp1a >_temp2
 echo 'numerical'
 ../grasem/run.bash numerical.grasem >_numerical.js
 node _numerical.js <_temp2 >_temp3
