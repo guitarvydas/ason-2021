@@ -36,16 +36,17 @@ layer kill whitespace:
 (no new tokens, W tokens removed from stream)
 
 layer numerical:
-layer dates:
-layer strings and binary:
-layer negative numbers:
-layer words:
-e! id
-layer expressions:
-G asonObject		begin Group ason object
-G asonArray			begin Group ason array
-G asonExpression	begin Group ason expression
-G nil				begin Group <nothing>
-G defineWord		begin Group define word
-g					end Group
+<br>
+layer dates:<br>
+layer strings and binary:<br>
+layer negative numbers:<br>
+layer words:<br>
+e! id<br>
+layer expressions:<br>
+G asonObject		begin Group ason object<br>
+G asonArray			begin Group ason array <br>
+G asonExpression	begin Group ason expression <br>
+G nil				begin Group <nothing> <br>
+G defineWord		begin Group define word <br>
+g					end Group <br>
 layer lisp:
